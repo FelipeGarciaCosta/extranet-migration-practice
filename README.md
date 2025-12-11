@@ -58,7 +58,7 @@ mvnw.cmd spring-boot:run
 ```
 
 Notes:
-- Database connection and JWT secret are in [backend-dsp/src/main/resources/application.properties](backend-dsp/src/main/resources/application.properties#L1). By default it points to MySQL at `jdbc:mysql://localhost:3305/extranet` with username `extranet`.
+- Database connection and JWT secret are in [backend-dsp/src/main/resources/application.properties](backend-dsp/src/main/resources/application.properties#L1). By default it points to MySQL at `jdbc:mysql://localhost:****/extranet` with username `extranet`.
 - The `DataInitializer` bean will create default roles and a test admin user if the DB is empty.
 
 Frontend:
@@ -73,7 +73,7 @@ By default the frontend expects the backend API base used in `AuthService` (see 
 
 **Default test credentials**
 - Username: `admin`
-- Password: `mipasslarga` (created by `DataInitializer` if DB empty)
+- Password: "" (created by `DataInitializer` if DB empty)
 
 **API / Integration notes**
 - JWT is required for protected endpoints. The frontend stores the JWT in `localStorage` and the interceptor adds it to requests.
@@ -83,11 +83,3 @@ By default the frontend expects the backend API base used in `AuthService` (see 
 - To change DB connection, edit [backend-dsp/src/main/resources/application.properties](backend-dsp/src/main/resources/application.properties#L1).
 - To change frontend API base URL, edit [frontend-dsp/src/app/services/auth.service.ts](frontend-dsp/src/app/services/auth.service.ts#L1).
 
-**Contributing**
-- Open an issue or pull request with a clear description and steps to reproduce.
-
-**License**
-- Add your preferred license file (e.g. `LICENSE`) before publishing to GitHub.
-
---
-Generated README summarizing both modules. Run backend then frontend and update configuration values as needed.
