@@ -1,0 +1,37 @@
+/* Basic layout mirroring Clientes */
+.contactos-container { padding: 20px; max-width: 1200px; margin: 0 auto; }
+.contactos-header { display: flex; gap: 10px; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.codcli-input { display: flex; gap: 8px; align-items: center; }
+.codcli-input input { padding: 6px 10px; border: 1px solid #ccc; border-radius: 6px; }
+.btn-cargar, .btn-refrescar { padding: 8px 12px; border: none; border-radius: 6px; cursor: pointer; }
+.btn-cargar { background: #10b981; color: #fff; }
+.btn-refrescar { background: #667eea; color: #fff; }
+
+.error-message { background: #fee; color: #c33; padding: 12px; border-left: 4px solid #c33; border-radius: 6px; margin-bottom: 12px; }
+.loading-message { text-align: center; color: #666; padding: 20px; }
+
+.contactos-table { background: #fff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); overflow: hidden; }
+.table-header { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); background: #f5f7fa; border-bottom: 1px solid #ddd; }
+.header-cell { display: flex; align-items: center; gap: 6px; padding: 12px; font-weight: 600; color: #333; min-width: 0; }
+.btn-filter { background: none; border: none; cursor: pointer; padding: 4px; border-radius: 3px; font-size: 12px; }
+.btn-filter:hover { background: rgba(102,126,234,0.1); }
+
+.filter-input-container { position: relative; display: flex; align-items: center; gap: 4px; flex: 1; min-width: 0; }
+.filter-input { padding: 4px 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 12px; width: 100%; min-width: 0; box-sizing: border-box; }
+.btn-close-filter { background: none; border: none; cursor: pointer; padding: 2px 4px; font-size: 12px; border-radius: 3px; color: #666; }
+.btn-close-filter:hover { background: rgba(0,0,0,0.06); }
+
+.table-body { max-height: 600px; overflow-y: auto; }
+.table-row { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); border-bottom: 1px solid #eee; }
+.table-row:hover { background: #f9f9f9; }
+.table-cell { padding: 12px; color: #555; border-right: 1px solid #eee; }
+.table-cell:last-child { border-right: none; }
+.no-data-message { text-align: center; padding: 24px; color: #666; font-style: italic; }
+
+/* Reuse toast styles from Clientes if present; provide fallback */
+.toast { position: fixed; right: 20px; top: 80px; z-index: 1100; padding: 10px 14px; border-radius: 8px; color: #fff; box-shadow: 0 6px 18px rgba(0,0,0,0.15); }
+.toast-error { background: #ef4444; }
+
+@media (max-width: 768px) {
+	.table-header, .table-row { grid-template-columns: 1fr; }
+}

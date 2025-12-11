@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-BackendApplication<backend-dsp>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.dsp.backend.BackendApplication",
+            "projectName": "backend-dsp",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

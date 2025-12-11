@@ -1,0 +1,134 @@
+<div class="clientes-container">
+  <!-- Header -->
+  <div class="clientes-header">
+    <h1>Clientes</h1>
+    <button class="btn-refrescar" (click)="refrescar()" [disabled]="isLoading">
+      🔄 Refrescar
+    </button>
+    <button class="btn-nuevo" (click)="abrirModalNuevo()" [disabled]="isLoading" title="Crear nuevo cliente">
+      ➕ Nuevo cliente
+    </button>
+  </div>
+
+  <!-- Toast de validación -->
+  <div *ngIf="toastMessage" class="toast toast-error" role="status" aria-live="polite">{{ toastMessage }}</div>
+
+  <!-- Estado de carga -->
+  <div *ngIf="isLoading" class="loading-message">
+    Cargando clientes...
+  </div>
+
+  <!-- Mensaje de error -->
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+    <button class="btn-retry" (click)="refrescar()">Reintentar</button>
+  </div>
+
+  <!-- Lista de clientes -->
+  <div *ngIf="!isLoading && !errorMessage" class="clientes-content">
+    <!-- Tabla de clientes -->
+    <div class="clientes-table">
+      <!-- Encabezados de columna con filtros -->
+        <div class="table-header">
+          <div class="header-cell" *ngFor="let col of columns">
+            <span>{{ col.label }}</span>
+            <ng-container *ngIf="!mostrarFiltros[col.key]; else inputTpl">
+              <button class="btn-filter" (click)="toggleFiltro(col.key)" [title]="'Filtrar por ' + col.label">🔍</button>
+            </ng-container>
+            <ng-template #inputTpl>
+              <div class="filter-input-container">
+                <input
+                  type="text"
+                  class="filter-input"
+                  [placeholder]="'Filtrar por ' + col.label"
+                  [(ngModel)]="filtros[col.key]"
+                  (input)="onFiltroChange(col.key)"
+                  (blur)="onFiltroBlur(col.key)"
+                  (keydown)="onFiltroKey($event, col.key)"
+                  [attr.data-filter-key]="col.key"
+                  [title]="'Filtrar por ' + col.label" />
+                <button type="button" class="btn-close-filter" (click)="cerrarFiltro(col.key)" [title]="'Cerrar filtro ' + col.label">✖</button>
+              </div>
+            </ng-template>
+          </div>
+        </div>
+
+      <!-- Filas de datos -->
+        <div class="table-body">
+          <div *ngFor="let cliente of clientesFiltrados" class="table-row">
+            <div class="table-cell" *ngFor="let col of columns">{{ getClienteValue(cliente, col.key) }}</div>
+          </div>
+        </div>
+
+      <!-- Mensaje cuando no hay clientes -->
+      <div *ngIf="clientesFiltrados.length === 0" class="no-data-message">
+        No se encontraron clientes activos.
+      </div>
+    </div>
+
+    <!-- Info footer -->
+    <div class="clientes-footer">
+      <span>Total de clientes: {{ clientesFiltrados.length }}</span>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Nuevo Cliente -->
+<div class="modal-overlay" *ngIf="mostrarModalNuevo" (click)="cerrarModalNuevo()">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Crear nuevo cliente</h2>
+      <button class="modal-close" (click)="cerrarModalNuevo()" title="Cerrar">✖</button>
+    </div>
+    <div class="modal-body">
+      <form (ngSubmit)="guardarNuevoCliente()" #formNuevo="ngForm">
+        <div class="form-grid">
+          <label>
+            <span>Código *</span>
+            <input type="text" name="codigoCli" [(ngModel)]="nuevoCliente.codigoCli" required />
+          </label>
+          <label>
+            <span>Nombre *</span>
+            <input type="text" name="nombreCli" [(ngModel)]="nuevoCliente.nombreCli" required />
+          </label>
+          <label>
+            <span>Agente</span>
+            <input type="text" name="agenteCli" [(ngModel)]="nuevoCliente.agenteCli" />
+          </label>
+          <label class="switch-field">
+            <span>Activo</span>
+            <input type="checkbox" name="activoCli" [(ngModel)]="nuevoCliente.activoCli" />
+          </label>
+          <label>
+            <span>Forma envío</span>
+            <input type="text" name="formenvCli" [(ngModel)]="nuevoCliente.formenvCli" />
+          </label>
+          <label>
+            <span>Forma pago</span>
+            <input type="text" name="formpagCli" [(ngModel)]="nuevoCliente.formpagCli" />
+          </label>
+          <label>
+            <span>CIF</span>
+            <input type="text" name="cifCli" [(ngModel)]="nuevoCliente.cifCli" />
+          </label>
+          <label>
+            <span>Titular</span>
+            <input type="text" name="titularCli" [(ngModel)]="nuevoCliente.titularCli" />
+          </label>
+          <label>
+            <span>Enlace</span>
+            <input type="number" name="enlaceCli" [(ngModel)]="nuevoCliente.enlaceCli" />
+          </label>
+          <label>
+            <span>Cliente 2</span>
+            <input type="text" name="cliente2Cli" [(ngModel)]="nuevoCliente.cliente2Cli" />
+          </label>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn-cancelar" (click)="cerrarModalNuevo()">Cancelar</button>
+          <button type="submit" class="btn-guardar" [disabled]="isLoading || !formNuevo.form.valid">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

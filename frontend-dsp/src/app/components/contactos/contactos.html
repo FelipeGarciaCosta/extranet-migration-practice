@@ -1,0 +1,47 @@
+<div class="contactos-container">
+	<div class="contactos-header">
+		<h1>Contactos</h1>
+		<div class="codcli-input">
+			<input type="text" placeholder="Código cliente (codCli)" [(ngModel)]="codCli" />
+			<button class="btn-cargar" (click)="cargarContactos()" [disabled]="isLoading">Cargar</button>
+		</div>
+		<button class="btn-refrescar" (click)="refrescar()" [disabled]="isLoading">🔄 Refrescar</button>
+	</div>
+
+	<div *ngIf="toastMessage" class="toast toast-error" role="status">{{ toastMessage }}</div>
+	<div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+	<div *ngIf="isLoading" class="loading-message">Cargando contactos...</div>
+
+	<div *ngIf="!isLoading && !errorMessage" class="contactos-content">
+		<div class="contactos-table">
+			<div class="table-header">
+				<div class="header-cell" *ngFor="let col of columns">
+					<span>{{ col.label }}</span>
+					<ng-container *ngIf="!mostrarFiltros[col.key]; else inputTpl">
+						<button class="btn-filter" (click)="toggleFiltro(col.key)" [title]="'Filtrar por ' + col.label">🔍</button>
+					</ng-container>
+					<ng-template #inputTpl>
+						<div class="filter-input-container">
+							<input type="text" class="filter-input"
+								[placeholder]="'Filtrar por ' + col.label"
+								[(ngModel)]="filtros[col.key]"
+								(input)="onFiltroChange(col.key)"
+								(blur)="onFiltroBlur(col.key)"
+								(keydown)="onFiltroKey($event, col.key)"
+								[attr.data-filter-key]="col.key"/>
+							<button type="button" class="btn-close-filter" (click)="cerrarFiltro(col.key)">✖</button>
+						</div>
+					</ng-template>
+				</div>
+			</div>
+
+			<div class="table-body">
+				<div *ngFor="let c of contactosFiltrados" class="table-row">
+					<div class="table-cell" *ngFor="let col of columns">{{ getContactoValue(c, col.key) }}</div>
+				</div>
+			</div>
+
+			<div *ngIf="contactosFiltrados.length === 0" class="no-data-message">No hay contactos.</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,81 @@
+<div class="dashboard-container">
+  <nav class="navbar">
+    <div class="navbar-content">
+      <h1 class="navbar-title">Dashboard - Sistema DSP</h1>
+      <div class="navbar-actions">
+        <span class="user-info" *ngIf="currentUser">
+          👤 {{ currentUser.username }}
+          <span class="user-roles">
+            <span *ngFor="let role of currentUser.roles" class="role-badge">
+              {{ role }}
+            </span>
+          </span>
+        </span>
+        <button class="logout-button" (click)="logout()">
+          Cerrar Sesión
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <div class="welcome-card">
+      <h2>¡Bienvenido, {{ currentUser?.username }}! 🎉</h2>
+      <p>Has iniciado sesión correctamente en el sistema.</p>
+    </div>
+
+    <div class="info-grid">
+      <div class="info-card">
+        <div class="info-icon">🔐</div>
+        <h3>Autenticación JWT</h3>
+        <p>Tu sesión está protegida con JSON Web Token</p>
+      </div>
+
+      <div class="info-card">
+        <div class="info-icon">🛡️</div>
+        <h3>Spring Security</h3>
+        <p>Backend protegido con Spring Security</p>
+      </div>
+
+      <div class="info-card">
+        <div class="info-icon">⚡</div>
+        <h3>Angular 20</h3>
+        <p>Frontend moderno con Angular standalone</p>
+      </div>
+
+      <div class="info-card" *ngIf="hasRole('ROLE_ADMIN')">
+        <div class="info-icon">👑</div>
+        <h3>Administrador</h3>
+        <p>Tienes permisos de administrador</p>
+      </div>
+
+      <!-- Nueva tarjeta para navegar a clientes -->
+      <div class="info-card action-card" (click)="navigateToClientes()">
+        <div class="info-icon">👥</div>
+        <h3>Ver Clientes</h3>
+        <p>Gestionar clientes del sistema</p>
+      </div>
+      <!-- Nueva tarjeta para navegar a contactos -->
+       <div class="info-card action-card" (click)="navigateToContactos()">
+        <div class="info-icon">👥</div>
+        <h3>Ver Contactos</h3>
+        <p>Gestionar contactos del sistema</p>
+      </div>
+    </div>
+
+    <div class="token-section">
+      <h3>Información de tu sesión</h3>
+      <div class="token-info">
+        <p><strong>Usuario:</strong> {{ currentUser?.username }}</p>
+        <p><strong>Roles:</strong> {{ currentUser?.roles?.join(', ') }}</p>
+        <p><strong>Token JWT:</strong></p>
+        <div class="token-display">
+          {{ currentUser?.token?.substring(0, 50) }}
+        </div>
+        <p class="token-note">
+          💡 Este token se envía automáticamente en todas las peticiones HTTP al backend
+        </p>
+      </div>
+    </div>
+  </main>
+</div>
